@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#07090b" />
 <meta name="color-scheme" content="dark light" />
-<title>Daily X narrative digest — 2026-11-04</title>
+<title>Daily X narrative digest — 2026-11-06</title>
 <link rel="icon" href="data:," />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -542,7 +542,7 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);color:v
       <div class="x-logo" aria-label="X"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.967 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></div>
       <div>
         <div class="eyebrow">public free experimental tool</div>
-        <h1 id="brand-title">Grok Bot X Virality Score <span class="handle" id="brand-handle">· @your_handle</span></h1>
+        <h1 id="brand-title">Cinema X Virality Score <span class="handle" id="brand-handle">· @above1988</span></h1>
         <div class="powered">free public desk for creators</div>
       </div>
     </div>
@@ -575,7 +575,7 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);color:v
           <div><div class="target-row-head"><span>Total views</span><b id="views-target-copy">—</b></div><div class="target-track"><div class="target-fill" id="views-progress"></div></div></div>
         </div>
         <div class="your-day" id="your-day">
-          <div class="yd-label" id="your-day-label">Your day · @your_handle</div>
+          <div class="yd-label" id="your-day-label">Your day · @above1988</div>
           <div class="yd-meta" id="your-day-meta">loading…</div>
           <div class="target-list" style="padding-top:0;margin-top:0;gap:16px">
             <div><div class="target-row-head"><span>Best post vs 5k</span><b id="you-5k-copy">—</b></div><div class="target-track"><div class="target-fill" id="you-5k-progress"></div></div></div>
@@ -643,7 +643,7 @@ footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);color:v
     </div>
     <div class="footer-row">
       <span>Read-only browser signal desk · refreshes with each daily digest · powered by Grok Bot</span>
-      <span class="footer-mark">Grok Bot X Virality Score</span>
+      <span class="footer-mark" id="footer-mark">Cinema X Virality Score</span>
     </div>
   </footer>
 </div>
@@ -766,18 +766,20 @@ function isYouEntry(e, op){
   if(!e) return false;
   if(e.is_you===true) return true;
   const h=String(e.handle||'').toLowerCase();
-  const oh=String((op&&op.handle)||'@your_handle').toLowerCase();
+  const oh=String((op&&op.handle)||'@above1988').toLowerCase();
   return h===oh;
 }
 function applyBrand(d){
   const op=d.operator||{};
-  const handle=d.brand_handle||op.handle||'@your_handle';
-  const title=d.brand_title||'Grok Bot X Virality Score';
+  const handle=d.brand_handle||op.handle||'@above1988';
+  const title=d.brand_title||'Cinema X Virality Score';
   const tEl=document.getElementById('brand-title');
   const yd=document.getElementById('your-day-label');
+  const foot=document.getElementById('footer-mark');
   if(tEl) tEl.innerHTML=`${esc(title)} <span class="handle" id="brand-handle">· ${esc(handle)}</span>`;
   if(yd) yd.textContent=`Your day · ${handle}`;
-  document.title=d.title||`${title} · ${handle}`;
+  if(foot) foot.textContent=title;
+  document.title=d.title||`${title} · ${d.date||''}`;
   return {handle, name:op.name||'Operator', profile_url:op.profile_url};
 }
 function renderLeaderboard(el, entries, op){
