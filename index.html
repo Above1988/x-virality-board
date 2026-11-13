@@ -787,7 +787,14 @@ function renderLeaderboard(el, entries, op){
   if(!entries||!entries.length){el.innerHTML='<p class="muted">No leaderboard data yet.</p>';return}
   el.innerHTML=entries.map((e,i)=>{
     const you=isYouEntry(e,op);
-    return `<div class="lb-row${you?' you':''}"><div class="rank">${String(i+1).padStart(2,'0')}</div><div><div class="lb-handle">${esc(e.handle||'')}${you?'<span class="you-chip">YOU</span>':''}</div><div class="lb-meta">${esc(e.name||'—')} · ${num(e.hits)} hits · ${num(e.days)}d</div></div><div class="lb-views">${esc(fmtBestTotal(e.best||0,e.views))}</div></div>`;
+    const handle=e.handle||e.name||'';
+    const displayName=e.name||e.handle||'—';
+    const hitsTxt=e.hits!=null&&e.hits!==''?`${num(e.hits)} hits`:'—';
+    const daysTxt=e.days!=null&&e.days!==''?`${num(e.days)}d`:'—';
+    const has=v=>v!=null&&v!=='';
+    const views=has(e.views)?e.views:(has(e.total)?e.total:null);
+    const viewsCell=(!has(e.best)&&views==null)?'—':(has(e.best)&&views!=null?fmtBestTotal(e.best,views):`${has(e.best)?fmt(e.best):'—'} / ${views==null?'—':fmt(views)}`);
+    return `<div class="lb-row${you?' you':''}"><div class="rank">${String(i+1).padStart(2,'0')}</div><div><div class="lb-handle">${esc(handle)}${you?'<span class="you-chip">YOU</span>':''}</div><div class="lb-meta">${esc(displayName)} · ${hitsTxt} · ${daysTxt}</div></div><div class="lb-views">${esc(viewsCell)}</div></div>`;
   }).join('');
 }
 function renderDayRoster(list, op, youRank){
